@@ -10,16 +10,31 @@
 
 .text-heading {
   font-size: calc(24px + (36 - 24) * ((100vw - 300px) / (1600 - 300)));
-  margin: .9rem 0;
+  margin: .5rem 0;
 }
 
 .text-content {
   font-size: calc(19px + (22 - 19) * ((100vw - 300px) / (1600 - 300)));
-  margin: .7rem 0;
+  margin: .5rem 0;
+}
+
+.text-mini {
+  font-size: calc(16px + (20 - 16) * ((100vw - 300px) / (1600 - 300)));
+  margin: .5rem 0;
 }
 
 .text-center {
   text-align: center !important;
+}
+
+.danger-btn {
+  color: #e71d36;
+  transition: 0.2s;
+}
+
+.danger-btn:hover {
+  cursor: pointer;
+  color: #e85656;
 }
 
 $start: 5;
@@ -33,11 +48,57 @@ $steps: 100/$start;
   }
 }
 
-.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+.container, .container-fluid, .container-lg, .container-md, .container-sm {
   width: 90%;
   margin-right: auto;
   margin-left: auto;
 }
+
+.card {
+  background-color: white;
+  color: #1f1f1f;
+  border-radius: .8rem;
+  padding: 1rem 2rem;
+  margin: 2rem 0;
+}
+
+.card-shadow {
+  box-shadow: rgba(0, 0, 0, 0.3) 0 0 .75rem;
+}
+
+.button {
+  background-color: transparent;
+  margin: .5rem 0;
+  padding: .9em;
+  border-radius: .75em;
+  transition: ease-in-out 0.2s;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.button-white {
+  color: #fff;
+  border: 1px #fff solid;
+}
+
+.button-white:hover {
+  background-color: #fff;
+  color: #3d93ef;
+}
+
+.button-blue {
+  color: #3d93ef;
+  border: 1px #3d93ef solid;
+}
+
+.button-blue:hover {
+  background-color: #3d93ef;
+  color: #fff;
+}
+
 
 @media (min-width: 576px) {
   .container, .container-sm {
@@ -49,6 +110,10 @@ $steps: 100/$start;
   .container, .container-md, .container-sm {
     max-width: 720px
   }
+  
+  .card {
+    padding: 1.5rem 2.5rem;
+  }
 }
 
 @media (min-width: 992px) {
@@ -57,9 +122,6 @@ $steps: 100/$start;
   }
 }
 
-.card {
-  background-color: white;
-  color: #1f1f1f;
-  border-radius: 1rem;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 0 .5rem;
-}
+@import '~@fortawesome/fontawesome-free/css/fontawesome.min.css';
+@import '~@fortawesome/fontawesome-free/css/solid.min.css';
+@import '~@fortawesome/fontawesome-free/css/regular.min.css';

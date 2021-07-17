@@ -1,0 +1,55 @@
+.container {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    right: 50%;
+    transform: translateX(-50%);
+    font-family: 'Montserrat', sans-serif;
+    padding-bottom: 1rem;
+}
+
+.input {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    display: inline-block;
+    min-height: 36px;
+    padding: 4px 12px;
+    width: 100%;
+    margin-bottom: 1rem;
+    margin-top: 5px;
+    background: #fff;
+    border: none;
+    border-bottom: 1px solid #c0c0c0;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    font-size: 15px;
+    color: #404040;
+    outline: none;
+}
+
+.deleteBtn {
+    background-color: transparent;
+    border: none;
+    width: 100%;
+}
+
+.deleteBtn i {
+    position: absolute;
+    right: 30px;
+    margin-top: -7px;
+}
+
+.dayContainer {
+    margin-left: 1rem;
+}
+
+@media (min-width: 576px) {
+    .container {
+        top: 1%;
+    }
+}

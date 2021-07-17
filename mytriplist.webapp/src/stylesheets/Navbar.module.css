@@ -2,19 +2,21 @@
     position: absolute;
     top: 0;
     right: 0;
-    padding: 1rem 1rem 0 0;
+    padding-top: 1rem;
+    width: 100vw;
+    display: flex;
 }
 
 .navbar {
     padding: 0;
-    margin: 0;
+    margin: 0 auto;
     list-style: none;
     display: flex;
     flex-direction: row;
 }
 
 .navbar li {
-    margin: 0 1rem 0 1rem;
+    margin: 0 .8rem;
 }
 
 .navbar li a {
@@ -27,6 +29,7 @@
     padding: 5px 5px;
     position: relative;
     transition: 0.1s ease-in-out;
+    font-size: 17px;
 }
 
 .navbar li a:after {
@@ -54,6 +57,12 @@
 @media (min-width: 576px) {
     .container {
         padding: 2.5rem 2.5rem 0 0;
+        width: auto;
+        display: inline;
+    }
+
+    .navbar li {
+        margin: 0 1rem;
     }
 
     .navbar li a {
