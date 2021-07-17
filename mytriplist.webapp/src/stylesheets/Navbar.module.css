@@ -1,0 +1,62 @@
+.container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem 1rem 0 0;
+}
+
+.navbar {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+}
+
+.navbar li {
+    margin: 0 1rem 0 1rem;
+}
+
+.navbar li a {
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+
+    display: inline-block;
+    padding: 5px 5px;
+    position: relative;
+    transition: 0.1s ease-in-out;
+}
+
+.navbar li a:after {
+    background: none repeat scroll 0 0 transparent;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    background: #fff;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+}
+
+.navbar li a:hover:after {
+    width: 100%;
+    left: 0;
+}
+
+.navbar li a:active {
+    color: #bababa;
+}
+
+@media (min-width: 576px) {
+    .container {
+        padding: 2.5rem 2.5rem 0 0;
+    }
+
+    .navbar li a {
+        font-size: 25px;
+    }
+}

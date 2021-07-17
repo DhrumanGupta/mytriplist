@@ -1,0 +1,65 @@
+.header {
+  margin: 0;
+  font-size: calc(35px + (50 - 14) * ((100vw - 300px) / (1600 - 300)));
+}
+
+.subheader {
+  font-size: calc(25px + (30 - 14) * ((100vw - 300px) / (1600 - 300)));
+  margin: 0;
+}
+
+.text-heading {
+  font-size: calc(24px + (36 - 24) * ((100vw - 300px) / (1600 - 300)));
+  margin: .9rem 0;
+}
+
+.text-content {
+  font-size: calc(19px + (22 - 19) * ((100vw - 300px) / (1600 - 300)));
+  margin: .7rem 0;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+$start: 5;
+$steps: 100/$start;
+@for $i from $start through $steps {
+  $step: $i * $start;
+  @each $prop, $unit in (width: vw, height: vh) {
+    .vh-#{$step} {
+      #{$prop}: #{$step}#{vh};
+    }
+  }
+}
+
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .container, .container-sm {
+    max-width: 540px
+  }
+}
+
+@media (min-width: 768px) {
+  .container, .container-md, .container-sm {
+    max-width: 720px
+  }
+}
+
+@media (min-width: 992px) {
+  .container, .container-lg, .container-md, .container-sm {
+    max-width: 960px
+  }
+}
+
+.card {
+  background-color: white;
+  color: #1f1f1f;
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 0 .5rem;
+}
