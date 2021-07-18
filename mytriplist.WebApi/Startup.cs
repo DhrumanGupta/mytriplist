@@ -28,6 +28,18 @@ namespace mytriplist.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("MyPolicy",
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
+            
             services.AddDbContext<ApplicationDbContext>(builder =>
                 builder.UseNpgsql(Configuration.GetConnectionString("CockroachDb"))
                 );
@@ -52,9 +64,10 @@ namespace mytriplist.WebApi
             }
             
             context.Database.Migrate();
-            app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("MyPolicy");
 
             app.UseAuthorization();
 

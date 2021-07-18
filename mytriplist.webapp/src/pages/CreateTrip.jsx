@@ -3,6 +3,11 @@ import styles from '../stylesheets/CreateTrip.module.css';
 import Card from "../components/Card";
 import Button from "../components/Button";
 import Destination from "../components/Destination";
+import {apiRoutes} from "../components/Constants/ApiConstants";
+import axios from "axios";
+import * as ReactDOM from "react-dom";
+import Modal from "../components/Modal";
+import {Link} from "react-router-dom";
 
 //  Data:
 //    Title
@@ -106,7 +111,7 @@ const dataReducer = (prevState, action) => {
 		case reducerActionTypes.destination.edit.day.place.edit.time:
 			state.destinations[action.idx].days[action.dayIdx].places[action.placeIdx].time = action.value
 			return state
-		
+
 		case reducerActionTypes.reset:
 			return {
 				title: '',
@@ -122,7 +127,12 @@ const dataReducer = (prevState, action) => {
 
 function CreateTrip(props) {
 	const [isDataValid, setIsDataValid] = useState(false);
-	
+	const [modalData, setModalData] = useState({
+		title: '',
+		content: '',
+		isOpen: false
+	});
+
 	const [dataState, dispatchState] = useReducer(dataReducer,
 		{
 			title: '',
@@ -242,17 +252,17 @@ function CreateTrip(props) {
 		})
 	}
 
-		const handleDestinationDayPlaceTimeChange = (event, idx, dayIdx, placeIdx) => {
-			dispatchState({
-				type: reducerActionTypes.destination.edit.day.place.edit.time,
-				value: event.target.value,
-				idx: idx,
-				dayIdx: dayIdx,
-				placeIdx: placeIdx
-			})
+	const handleDestinationDayPlaceTimeChange = (event, idx, dayIdx, placeIdx) => {
+		dispatchState({
+			type: reducerActionTypes.destination.edit.day.place.edit.time,
+			value: event.target.value,
+			idx: idx,
+			dayIdx: dayIdx,
+			placeIdx: placeIdx
+		})
 	}
 
-	
+
 	useEffect(() => {
 		const identifier = setTimeout(() => {
 			setIsDataValid(
@@ -276,13 +286,56 @@ function CreateTrip(props) {
 			</React.Fragment>
 		)
 	}
-	
+
 	const handleSaveData = () => {
-		console.log("saving...")
+		const data = {
+			title: dataState.title,
+			startDate: dataState.startDate,
+			tripType: dataState.tripType,
+			destinations: dataState.destinations.map(x => {
+				return {
+					name: x.name,
+					residenceName: x.residence.name,
+					residenceCost: x.residence.cost,
+					days: x.days
+				}
+			})
+		}
+
+		axios
+			.post(apiRoutes.data, data, {headers: {"Access-Control-Allow-Origin": "*"}})
+			.then(res => {
+				const uriData = window.location.href.split("/");
+				const domain = uriData[0] + '//' + uriData[2];
+				const uri = `${domain}/view/${res.data.id}`
+				setModalData({
+					title: 'Successfully uploaded!',
+					subtitle: 'Your trip list was successfully uploaded to the database.',
+					content: <p>You can open your list by visiting <Link to={`/view/${res.data.id}`}><code>{uri}</code></Link></p>,
+					isOpen: true
+				})
+
+				dispatchState({
+					type: reducerActionTypes.reset
+				})
+			})
+			.catch(err => {
+
+			})
 	}
 
 	return (
 		<div className={`container ${styles.container}`}>
+			{
+				ReactDOM.createPortal(
+					<Modal data={modalData} onClose={() => setModalData({
+						title: '',
+						content: '',
+						isOpen: false
+					})}/>,
+					document.getElementById("modalPortal")
+				)
+			}
 			<h1 className={"text-heading text-center"}>
 				Plan Your Trip
 			</h1>

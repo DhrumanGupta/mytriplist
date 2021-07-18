@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -21,19 +22,22 @@ namespace mytriplist.WebApi.Controllers
             _context = context;
         }
         
-        [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetAsync(Guid id)
         {
-            var count = await _context.TripLists.CountAsync();
-            var list = await _context.TripLists
+            var record = await _context.TripLists
                 .Include(x => x.Destinations)
-                .ThenInclude(x => x.Days)
-                .ThenInclude(x => x.Places)
+                .ThenInclude(x=> x.Days)
+                .ThenInclude(x=> x.Places)
                 .AsSplitQuery()
-                .OrderBy(x => x.TimeCreated)
-                .Take(Math.Min(10, count))
-                .ToListAsync();
-            return Ok(list);
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (record == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(record);
         }
 
         [HttpPost]

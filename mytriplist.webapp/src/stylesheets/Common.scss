@@ -85,18 +85,26 @@ $steps: 100/$start;
   font-family: 'Montserrat', sans-serif;
 }
 
+.button a {
+  text-decoration: none;
+}
+
 .button:hover {
   cursor: pointer;
 }
 
 .button-white {
-  color: #fff;
+  color: #fff !important;
   border: 1px #fff solid;
 }
 
 .button-white:hover {
-  background-color: #fff;
-  color: #3d93ef;
+  background-color: #fff !important;
+  color: #3d93ef !important;
+}
+
+.button-white:hover a {
+  color: #3d93ef !important;
 }
 
 .button-blue {
