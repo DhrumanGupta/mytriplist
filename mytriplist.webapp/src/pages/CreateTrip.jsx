@@ -24,7 +24,16 @@ const reducerActionTypes = {
 				cost: "EDIT_DESTINATION_RESIDENCE_COST"
 			},
 			day: {
-				add: "ADD_DESTINATION_DAY"
+				add: "ADD_DESTINATION_DAY",
+				remove: "REMOVE_DESTINATION_DAY",
+				place: {
+					add: "ADD_DESTINATION_DAY_PLACE",
+					remove: "REMOVE_DESTINATION_DAY_PLACE",
+					edit: {
+						name: "EDIT_DESTINATION_DAY_PLACE_NAME",
+						time: "EDIT_DESTINATION_DAY_PLACE_TIME"
+					}
+				}
 			}
 		}
 	}
@@ -77,6 +86,26 @@ const dataReducer = (prevState, action) => {
 			state.destinations[action.idx].days = action.value
 			return state
 
+		case reducerActionTypes.destination.edit.day.remove:
+			state.destinations[action.idx].days = action.value
+			return state
+
+		case reducerActionTypes.destination.edit.day.place.add:
+			state.destinations[action.idx].days[action.dayIdx].places = action.value
+			return state
+
+		case reducerActionTypes.destination.edit.day.place.remove:
+			state.destinations[action.idx].days[action.dayIdx].places = action.value
+			return state
+
+		case reducerActionTypes.destination.edit.day.place.edit.name:
+			state.destinations[action.idx].days[action.dayIdx].places[action.placeIdx].name = action.value
+			return state
+
+		case reducerActionTypes.destination.edit.day.place.edit.time:
+			state.destinations[action.idx].days[action.dayIdx].places[action.placeIdx].time = action.value
+			return state
+
 		default:
 			return state
 	}
@@ -93,6 +122,7 @@ function CreateTrip(props) {
 		});
 
 	const handleNameChange = (event) => {
+		console.log(dataState)
 		dispatchState({
 			type: reducerActionTypes.tripName,
 			value: event.target.value
@@ -155,11 +185,59 @@ function CreateTrip(props) {
 		dispatchState({
 			type: reducerActionTypes.destination.edit.day.add,
 			value: [...dataState.destinations[idx].days, {
-				places: [],
-				note: ''
+				places: []
 			}],
 			idx: idx
 		})
+	}
+
+	const handleDestinationRemoveDay = (destIdx, dayIdx) => {
+		dispatchState({
+			type: reducerActionTypes.destination.edit.day.remove,
+			value: dataState.destinations[destIdx].days.filter((value, idx) => idx !== dayIdx),
+			idx: destIdx
+		})
+	}
+
+	const handleDestinationAddDayPlace = (idx, dayIdx) => {
+		dispatchState({
+			type: reducerActionTypes.destination.edit.day.place.add,
+			value: [...dataState.destinations[idx].days[dayIdx].places, {
+				name: '',
+				time: '00:00'
+			}],
+			idx: idx,
+			dayIdx: dayIdx
+		})
+	}
+
+	const handleDestinationRemoveDayPlace = (idx, dayIdx, placeIdx) => {
+		dispatchState({
+			type: reducerActionTypes.destination.edit.day.place.remove,
+			value: dataState.destinations[idx].days[dayIdx].places.filter((value, i) => i !== placeIdx),
+			idx: idx,
+			dayIdx: dayIdx
+		})
+	}
+
+	const handleDestinationDayPlaceNameChange = (event, idx, dayIdx, placeIdx) => {
+		dispatchState({
+			type: reducerActionTypes.destination.edit.day.place.edit.name,
+			value: event.target.value,
+			idx: idx,
+			dayIdx: dayIdx,
+			placeIdx: placeIdx
+		})
+	}
+
+		const handleDestinationDayPlaceTimeChange = (event, idx, dayIdx, placeIdx) => {
+			dispatchState({
+				type: reducerActionTypes.destination.edit.day.place.edit.time,
+				value: event.target.value,
+				idx: idx,
+				dayIdx: dayIdx,
+				placeIdx: placeIdx
+			})
 	}
 
 	const Space = () => {
@@ -200,16 +278,21 @@ function CreateTrip(props) {
 			{
 				dataState.destinations.map((destination, idx) =>
 					<Destination
+						key={idx}
 						styles={styles}
 						handleRemoveDestination={handleRemoveDestination}
 						destination={destination}
 						idx={idx}
-						key={idx}
 						space={Space}
 						handleNameChange={handleDestinationNameChange}
 						handleResidenceChange={handleDestinationResidenceChange}
 						handleResidenceCostChange={handleDestinationResidenceCostChange}
 						handleAddDay={handleDestinationAddDay}
+						handleRemoveDay={handleDestinationRemoveDay}
+						handleAddDayPlace={handleDestinationAddDayPlace}
+						handleRemoveDayPlace={handleDestinationRemoveDayPlace}
+						handleDayPlaceNameChange={handleDestinationDayPlaceNameChange}
+						handleDayPlaceTimeChange={handleDestinationDayPlaceTimeChange}
 					/>
 				)
 			}

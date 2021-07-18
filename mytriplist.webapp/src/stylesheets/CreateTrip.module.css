@@ -32,6 +32,15 @@
     outline: none;
 }
 
+.inputSm{
+    width: 45% !important;
+}
+
+.removeBtn {
+    background-color: transparent;
+    border: none;
+}
+
 .deleteBtn {
     background-color: transparent;
     border: none;
@@ -48,8 +57,27 @@
     margin-left: 1rem;
 }
 
+.inputGroupHorizontal {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.addBtn {
+    background: transparent;
+    border: none;
+    color: #3d93ef;
+    transition: 0.2s;
+}
+
+.addBtn:hover {
+    cursor: pointer;
+    color: #529eef;
+}
+
 @media (min-width: 576px) {
     .container {
-        top: 1%;
+        top: 15%;
     }
 }

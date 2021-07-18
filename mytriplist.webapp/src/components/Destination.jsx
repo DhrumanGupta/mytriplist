@@ -1,22 +1,56 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import Card from "./Card";
 import Button from "./Button";
 
-//  Destination:
-//    Hotel/Residency
-//      - Cost ?
-//    Days
-//      - Places to visit [1]
-//      - Notes ?
-
 function Destination(props) {
 	const days = props.destination.days.map((day, idx) =>
-		<Fragment key={idx}>
+		<React.Fragment key={idx}>
+			<props.space/>
 			<label className={"text-content"}>Day {idx + 1}</label>
-			<div key={idx} className={props.styles.dayContainer}>
-				Content here
+			&nbsp;&nbsp;&nbsp;
+			<button className={`danger-btn ${props.styles.removeBtn}`} style={{transform: 'translateY(-12%)'}}
+			        onClick={() => {
+				        props.handleRemoveDay(props.idx, idx)
+			        }}
+			>
+				<i className="fas fa-minus-circle fa-lg"/>
+			</button>
+
+			<br/>
+			<br/>
+			
+			<div className={props.styles.dayContainer}>
+				
+				{
+					day.places.map((place, placeIdx) =>
+						<div className={props.styles.inputGroupHorizontal} key={placeIdx}>
+							<input type={"text"} className={`${props.styles.inputSm} ${props.styles.input}`}
+							       placeholder={"Place to visit"} value={place.name} onChange={(event) => props.handleDayPlaceNameChange(event, props.idx, idx, placeIdx)}/>
+
+							<input type={"time"} className={`${props.styles.inputSm} ${props.styles.input}`}
+							       placeholder={"Time"} value={place.time}
+							       onChange={(event) => props.handleDayPlaceTimeChange(event, props.idx, idx, placeIdx)}/>
+
+							<button className={`danger-btn ${props.styles.removeBtn}`}
+								onClick={() => {props.handleRemoveDayPlace(props.idx, idx, placeIdx)}}
+							>
+								<i className="fas fa-minus-circle fa-lg"/>
+							</button>
+
+						</div>
+					)
+				}
+
+				<button className={`${props.styles.addBtn}`}
+				        onClick={() => {
+					        props.handleAddDayPlace(props.idx, idx)
+				        }}
+				>
+					<i className="fas fa-plus-circle fa-lg"/>
+				</button>
+				
 			</div>
-		</Fragment>
+		</React.Fragment>
 	);
 
 	return (
@@ -44,8 +78,6 @@ function Destination(props) {
 			<input type={"number"} placeholder={"Cost of Residence"} className={props.styles.input}
 			       value={props.destination.residence.cost}
 			       onChange={(event) => props.handleResidenceCostChange(event, props.idx)}/>
-
-			<props.space/>
 
 			{days}
 			{days.length > 0 && <br/>}
