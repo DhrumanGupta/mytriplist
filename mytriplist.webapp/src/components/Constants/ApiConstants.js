@@ -1,4 +1,4 @@
-export const apiPrefix = 'https://localhost:5001';
+export const apiPrefix = 'https://mytriplist.azurewebsites.net/';
 
 export const apiRoutes = {
 	data: `${apiPrefix}/api/data`
