@@ -76,7 +76,7 @@ function Destination(props) {
 			       onChange={(event) => props.handleResidenceChange(event, props.idx)}/>
 			<label className={"text-content"}>Cost ($)</label>
 			<input type={"number"} placeholder={"Cost of Residence"} className={props.styles.input}
-			       value={props.destination.residence.cost}
+			       value={props.destination.residence.cost} min={"0"}
 			       onChange={(event) => props.handleResidenceCostChange(event, props.idx)}/>
 
 			{days}

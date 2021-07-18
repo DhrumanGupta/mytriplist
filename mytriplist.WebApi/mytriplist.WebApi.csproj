@@ -6,6 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.8" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7">
           <PrivateAssets>all</PrivateAssets>
@@ -18,10 +19,6 @@
         </PackageReference>
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Controllers" />
     </ItemGroup>
 
 </Project>

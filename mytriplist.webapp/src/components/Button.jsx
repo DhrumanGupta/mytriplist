@@ -9,7 +9,7 @@ function Button(props) {
 	}
 	
 	return (
-		<button className={`button ${props.white ? 'button-white' : 'button-blue'} ${props?.className || ''}`} type={props.type} onClick={handleClick}>
+		<button className={`button ${props.white ? 'button-white' : 'button-blue'} ${props?.className || ''}`} type={props.type} onClick={handleClick} disabled={props.disabled || false}>
 			{props.children}
 		</button>
 	);

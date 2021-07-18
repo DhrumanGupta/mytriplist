@@ -37,6 +37,16 @@
   color: #e85656;
 }
 
+.button:disabled {
+  color: #fff !important;
+  background: transparent !important;
+}
+
+.button:disabled:hover {
+  cursor: not-allowed;
+}
+
+
 $start: 5;
 $steps: 100/$start;
 @for $i from $start through $steps {

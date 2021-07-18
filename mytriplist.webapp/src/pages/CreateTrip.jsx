@@ -1,4 +1,4 @@
-import React, {useReducer} from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 import styles from '../stylesheets/CreateTrip.module.css';
 import Card from "../components/Card";
 import Button from "../components/Button";
@@ -36,7 +36,8 @@ const reducerActionTypes = {
 				}
 			}
 		}
-	}
+	},
+	reset: "RESET_TRIP_DATA"
 }
 
 const dataReducer = (prevState, action) => {
@@ -79,7 +80,7 @@ const dataReducer = (prevState, action) => {
 			return state
 
 		case reducerActionTypes.destination.edit.residence.cost:
-			state.destinations[action.idx].residence.cost = action.value
+			state.destinations[action.idx].residence.cost = Math.max(action.value, 0)
 			return state
 
 		case reducerActionTypes.destination.edit.day.add:
@@ -105,6 +106,14 @@ const dataReducer = (prevState, action) => {
 		case reducerActionTypes.destination.edit.day.place.edit.time:
 			state.destinations[action.idx].days[action.dayIdx].places[action.placeIdx].time = action.value
 			return state
+		
+		case reducerActionTypes.reset:
+			return {
+				title: '',
+				tripType: '',
+				destinations: [],
+				startDate: new Date().toISOString().slice(0, 10)
+			}
 
 		default:
 			return state
@@ -112,17 +121,17 @@ const dataReducer = (prevState, action) => {
 }
 
 function CreateTrip(props) {
+	const [isDataValid, setIsDataValid] = useState(false);
+	
 	const [dataState, dispatchState] = useReducer(dataReducer,
 		{
 			title: '',
 			tripType: '',
 			destinations: [],
-			startDate: new Date().toISOString().slice(0, 10),
-			isValid: false
+			startDate: new Date().toISOString().slice(0, 10)
 		});
 
 	const handleNameChange = (event) => {
-		console.log(dataState)
 		dispatchState({
 			type: reducerActionTypes.tripName,
 			value: event.target.value
@@ -185,7 +194,10 @@ function CreateTrip(props) {
 		dispatchState({
 			type: reducerActionTypes.destination.edit.day.add,
 			value: [...dataState.destinations[idx].days, {
-				places: []
+				places: [{
+					name: '',
+					time: '00:00'
+				}]
 			}],
 			idx: idx
 		})
@@ -240,6 +252,22 @@ function CreateTrip(props) {
 			})
 	}
 
+	
+	useEffect(() => {
+		const identifier = setTimeout(() => {
+			setIsDataValid(
+				dataState.title.trim().length > 0
+				&& dataState.tripType.trim().length > 0
+				&& dataState.destinations.length > 0
+				&& dataState.destinations[0].name.trim().length > 0
+				&& dataState.destinations[0].residence.name.trim().length > 0
+			)
+		}, 500)
+		return () => {
+			clearTimeout(identifier)
+		};
+	}, [dataState])
+
 	const Space = () => {
 		return (
 			<React.Fragment>
@@ -247,6 +275,10 @@ function CreateTrip(props) {
 				<br/>
 			</React.Fragment>
 		)
+	}
+	
+	const handleSaveData = () => {
+		console.log("saving...")
 	}
 
 	return (
@@ -299,6 +331,10 @@ function CreateTrip(props) {
 
 			<Button handleClick={handleAddDestination} white>
 				<i className={"far fa-plus-square fa-lg"}/> {'\u00A0'} Add Destination
+			</Button>
+			&nbsp;&nbsp;&nbsp;
+			<Button handleClick={handleSaveData} white disabled={!isDataValid}>
+				<i className={"far fa-save fa-lg"}/> {'\u00A0'} Save
 			</Button>
 
 		</div>
